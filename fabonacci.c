@@ -10,6 +10,7 @@ void main()
 {
 	int a=1;
 	int b=1;
+	printf("%s\n","please input number of terms:" );
 	int n;
 	scanf("%d",&n) ;
 	while(n>1){
