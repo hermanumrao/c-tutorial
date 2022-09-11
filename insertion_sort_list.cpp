@@ -18,40 +18,64 @@ void display(link *start)
 	cout<<endl;
 }
 
-
-
-void sort_list(link *start)
+void insert_list(link *sortd , link *a)
 {
-	link *tmp1;
-	link *tmp2;
-	link *sortd=NULL;
-	// while(start!=NULL)
-	// {
-	tmp1=start;
-	tmp2=sortd;
-	if (tmp1->value<tmp2->value || tmp2==NULL)
+	link *temp=sortd->next;
+	while (temp!=NULL)
 	{
-		start=start->next;
-		tmp1->next=sortd;
-		sortd=tmp1;
+		if ((a->value)>(temp->value))
+		{
+			temp=temp->next;
+			sortd=sortd->next;
+		}
+		else
+		{
+			sortd->next=a;
+			sortd=sortd->next;
+
+			sortd->next=temp;
+			return;
+		}
+	}
+	sortd->next=a;
+	return;
+
+}
+
+void sort_list(link *node)
+{
+	link *tmp=NULL;
+	link *sortd=NULL;
+	while(node!=NULL)
+	{
+		tmp=node;
+		node=node->next;
+		tmp->next=NULL;
+		if (sortd==NULL)
+		{
+			sortd=tmp;
+		}
+		else
+		{
+			if ((sortd->value)<(tmp->value))
+			{
+				if(sortd->next==NULL)
+				{
+					sortd->next=tmp;
+				}
+				else
+				{
+					insert_list(sortd,tmp);
+				}
+			}
+			else
+			{
+				tmp->next=sortd;
+				sortd=tmp;
+			}
+		}		
 	}
 	display(sortd);
-		// else
-		// {
-		// 	while(sortd!=NULL)
-		// 	{
-		// 		if (tmp2>tmp1)
-		// 		{
-		// 			tmp1=tmp2->next;
-		// 			sortd=sortd->next;
-		// 		}
-		// 		tmp2=sortd->next;
-		// 		sortd->next=tmp1;
-		// 		sortd=sortd->next;
-		// 		sortd->next=tmp2;
-		// 	}
-		// }
-	//}
 	return ;
 }
 
@@ -59,18 +83,15 @@ void AddNode(link *start,link *node )
 {
 	while(start->next!= NULL)
 	{
-
 		start=start->next;
-
 	}
 	start->next=node;
 }
 
 
-
 int main()
 {
-	int a[]={3,2,1};//4,7,6,5,3,8,2,1
+	int a[]={4,7,6,5,3,8,2,1};//
 	int b=sizeof(a)/4;
 	link *strtnode =new link();
 	strtnode->value=a[0];
