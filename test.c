@@ -1,21 +1,32 @@
-//this program gives sum of two numbers
-//all the lines commented below this are used for c
-
-//#include <stdio.h>
 #include<iostream>
+#include<vector>
+#include<stdlib.h>
+#include <string.h>
+using namespace std ;
 
-int fn(int x,int y)
+struct Node
 {
-	int z=x+y;
-	return z;
-}
-//void main()
-int main ()
+	int x;
+	Node(int t)
+	{
+		cout<<"me1"<<endl;
+		x=t;
+	} 
+	Node()  //default constructor
+	{
+		cout<<"me2"<<endl;
+		x=2;
+	}
+};
+
+int main()
 {
-	int a=fn(2,3);
-	//printf("%d\n",a );
-	std::cout<<a;
-	//return ;
+	Node x;
+	Node *a= new Node();
+
+	Node b(1);
+	Node *c= new Node(1);
+	Node xx{1};
+	Node e={.x=1};
 	return 0;
-
 }
