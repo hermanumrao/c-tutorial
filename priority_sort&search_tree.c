@@ -156,7 +156,7 @@ int main()
     if (a==true)
     {
     	cout<<"found";
-	}
+	} 
 	else
 	{
 		cout<<"missing";
