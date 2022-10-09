@@ -70,10 +70,6 @@ void printLevelOrder(treenode *root)
     }
 }
 
-void draw_tree()
-{
-
-}
 
 int main()
 {
