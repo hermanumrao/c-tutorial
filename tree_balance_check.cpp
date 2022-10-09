@@ -84,22 +84,6 @@ bool check_balanced(treenode *root)
 
 int main()
 {
-    // treenode *n1 = create_node(1);
-    // treenode *n2 = create_node(2);
-    // treenode *n3 = create_node(3);
-    // treenode *n4 = create_node(4);
-    // treenode *n5 = create_node(5);
-    // treenode *n6 = create_node(6);
-    // treenode *n7 = create_node(7);
-    // treenode *n8 = create_node(8);
-
-    // n1->left = n2;
-    // n1->right= n3;
-    // n2->right= n4;
-    // n3->left = n5;
-    // n3->right= n6;
-    // n5->left = n7;
-    // n5->right= n8;
     treenode *n1 = create_node(1);
     treenode *n2 = create_node(2);
     treenode *n3 = create_node(3);
