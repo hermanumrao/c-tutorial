@@ -103,10 +103,6 @@ void printLevelOrder(treenode *root)
     }
 }
 
-void arr_tree()
-{
-
-}
 
 int main()
 {
