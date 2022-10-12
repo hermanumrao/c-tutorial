@@ -6,6 +6,7 @@ using namespace std ;
 struct treenode
 {
 	int value;
+	/* use struct only when you want to insert another tree at that node*/
 	struct treenode *left;
 	struct treenode *right;
 
@@ -19,7 +20,7 @@ treenode *create_node(int value)
 	node->right=NULL;
 	return node;
 }
-
+/* printing a tree randomly*/
 // void print_tree(treenode *root)
 // {
 // 	if (root==NULL)
@@ -35,7 +36,7 @@ treenode *create_node(int value)
 // }
 
 
-/* Print nodes at a given level */
+/* Print a tree in level order */
 void printLevelOrder(treenode *root)
 {
     // Base Case
