@@ -33,20 +33,33 @@ stnode *init_node()
 }
 
 
-/*displying the list one of the most impotrant jobs*/
+/*displaying the list one of the most important jobs*/
 void display_st(stnode *root,const char *st)
 {
+    for (int it=0;it<alpha_max;it++)
+    {
+        cout<<"x";b
+        if ((root->children[it])!=NULL)
+        {
+            display_st(root->children[it],st);
+        }
+    }
+    cout<<root->end-root->start<<"-----";
     for (int i=0;i<(root->end-root->start);i++)
     {
         cout<<"suffix-"<<root->start<<" "<<root->end<<root->leaf;
-
+        for (int j=root->start;j<root->end;j++)
+        {
+            cout<<st[j];
+        }
+        cout<<endl;
     }
 }
 
 
 
-/*the biggest challange is over write function
-    we need to first check till which charecter of string is the function repeated
+/*the biggest challenge is over write function
+    we need to first check till which character of string is the function repeated
     then we rewrite node->end till that point and add two new nodes
         1>has the original node->end point and same node->suffixIndex
         2>has new stuff */
@@ -61,17 +74,17 @@ void ins_strie(const char *st ,stnode *root)
     int l=strlen(st)-1;
     for (int i=(l);i>0;i--)
     {
-        cout<<i<<st[l-i]<<int(st[l-i]);
+        //cout<<i<<st[l-i]<<int(st[l-i]);
         if (root->children[int(st[l-i])]==NULL)
         {
-            cout<<"suffix->";
-            int tmp=i;
-            while (tmp>0)
-            {
-                cout<<st[l-tmp];
-                tmp=tmp-1;
-            }
-            cout<<endl;
+            // cout<<"suffix->";
+            // int tmp=i;
+            // while (tmp>0)
+            // {
+            //     cout<<st[l-tmp];
+            //     tmp=tmp-1;
+            // }
+            // cout<<endl;
             stnode *node=init_node();
             node->start=l-i+1;
             node->end=l+1;
@@ -81,7 +94,7 @@ void ins_strie(const char *st ,stnode *root)
         else
         {
             //insert other stuff using the over_write function
-            cout<<"over write"<<endl;
+            //cout<<"over write"<<endl;
             over_write(st,root);
         }
     }
@@ -97,10 +110,10 @@ int main()
     char st[str_len]="aba";
     int tmp = strlen(st);
     st[tmp]='#';
-    cout<<st<<endl;
 /*-->next we use a function to insert into root node*/
 
     ins_strie(st,root);
+    display_st(root,st);
     // for (int i=0;i<127;i++)
     // {
     //     char a=char(i);
