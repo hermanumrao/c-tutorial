@@ -10,7 +10,7 @@ using namespace std ;
 
 struct stnode
 {
-    
+    bool leaf;
     struct stnode *children[alpha_max];
     char chr[str_len];
     int start;
@@ -31,6 +31,30 @@ stnode *init_node()
     }
     return node;
 }
+
+
+/*displying the list one of the most impotrant jobs*/
+void display_st(stnode *root,const char *st)
+{
+    for (int i=0;i<(root->end-root->start);i++)
+    {
+        cout<<"suffix-"<<root->start<<" "<<root->end<<root->leaf;
+
+    }
+}
+
+
+
+/*the biggest challange is over write function
+    we need to first check till which charecter of string is the function repeated
+    then we rewrite node->end till that point and add two new nodes
+        1>has the original node->end point and same node->suffixIndex
+        2>has new stuff */
+void over_write(const char *st ,stnode *root)
+{
+    return;
+}
+
 
 void ins_strie(const char *st ,stnode *root)
 {
@@ -58,6 +82,7 @@ void ins_strie(const char *st ,stnode *root)
         {
             //insert other stuff using the over_write function
             cout<<"over write"<<endl;
+            over_write(st,root);
         }
     }
     return;
