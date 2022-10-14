@@ -3,6 +3,7 @@
 #include<iostream>
 #include <string.h>
 #include <stdbool.h>
+#include <typeinfo>
 using namespace std ;
 
 #define alpha_max 27
@@ -15,16 +16,16 @@ struct stnode
     char chr[str_len];
     int start;
     int end;
-    int suffixIndex;
+    // int suffixIndex;
 };
 
-stnode *init_node()
+stnode *init_node(int start1,int end1,bool leaf1)
 {
     stnode *node = new stnode();
-    node->start=0;
-    node->end=0;
-    node->suffixIndex=0;
-    
+    node->start=start1;
+    node->end=end1;
+    // node->suffixIndex=0;
+    node->leaf=leaf1;
     for (int i=0; i<alpha_max; i++)
     {
         node->children[i]=NULL;
@@ -33,92 +34,52 @@ stnode *init_node()
 }
 
 
-/*displaying the list one of the most important jobs*/
-void display_st(stnode *root,const char *st)
+
+void stdisplay(stnode *root,const char *st)
 {
-    for (int it=0;it<alpha_max;it++)
+    for (int it2=0;it2<alpha_max;it2++)
     {
-        cout<<"x";b
-        if ((root->children[it])!=NULL)
+        if(root->children[it2]!=NULL)
         {
-            display_st(root->children[it],st);
+            for(int it3=(root->children[it2]->start-1);it3<root->children[it2]->end;it3++)
+            {
+                cout<<st[it3];
+            }
+            cout<<":";
+            if (root->children[it2]->leaf==true) cout<<"^"<<endl;
+            else stdisplay(root->children[it2],st);
+
         }
     }
-    cout<<root->end-root->start<<"-----";
-    for (int i=0;i<(root->end-root->start);i++)
-    {
-        cout<<"suffix-"<<root->start<<" "<<root->end<<root->leaf;
-        for (int j=root->start;j<root->end;j++)
-        {
-            cout<<st[j];
-        }
-        cout<<endl;
-    }
-}
-
-
-
-/*the biggest challenge is over write function
-    we need to first check till which character of string is the function repeated
-    then we rewrite node->end till that point and add two new nodes
-        1>has the original node->end point and same node->suffixIndex
-        2>has new stuff */
-void over_write(const char *st ,stnode *root)
-{
-    return;
-}
-
-
-void ins_strie(const char *st ,stnode *root)
-{
-    int l=strlen(st)-1;
-    for (int i=(l);i>0;i--)
-    {
-        //cout<<i<<st[l-i]<<int(st[l-i]);
-        if (root->children[int(st[l-i])]==NULL)
-        {
-            // cout<<"suffix->";
-            // int tmp=i;
-            // while (tmp>0)
-            // {
-            //     cout<<st[l-tmp];
-            //     tmp=tmp-1;
-            // }
-            // cout<<endl;
-            stnode *node=init_node();
-            node->start=l-i+1;
-            node->end=l+1;
-            node->suffixIndex=l-i+1;
-            root->children[int(st[l-i])]=node;
-        }
-        else
-        {
-            //insert other stuff using the over_write function
-            //cout<<"over write"<<endl;
-            over_write(st,root);
-        }
-    }
-    return;
 }
 
 int main()
 {
-    cout<<"main---"<<endl;
-    //first create a root node
-    stnode *root=init_node();
-    //input string we want to insert 
-    char st[str_len]="aba";
+    char st[str_len] ="abcdaef";
     int tmp = strlen(st);
     st[tmp]='#';
-/*-->next we use a function to insert into root node*/
+    cout<<st<<tmp<<endl;
+    stnode *root=init_node(1,tmp,false);
+    for (int it=0; (it+1)<strlen(st);it++)
+    {
+        if (root->children[int(st[it])-97]==NULL)
+        {
+            cout<<"yes"<<endl;
+            stnode *node = init_node(it+1,strlen(st),true);
+            root->children[int(st[it])-97]=node;
+        }
+        else
+        {
+            cout<<"over_write"<<endl;
+        }
 
-    ins_strie(st,root);
-    display_st(root,st);
-    // for (int i=0;i<127;i++)
-    // {
-    //     char a=char(i);
-    //     cout<<a<<i<<int( )<<endl;
-    // }
+    }
+    for (int itt=0;itt<alpha_max;itt++) if(root->children[itt]!=NULL) 
+    {
+        cout<<"#"<<typeid(root->children[itt]).name()<<root->children[itt]->start<<root->children[itt]->end;}
+    cout<<endl;
 
+    cout<<"--------"<<endl;
+    stdisplay(root,st);
 
 }
