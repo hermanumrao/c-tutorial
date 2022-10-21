@@ -1,4 +1,4 @@
-/*this program prins series of fabonaaci
+/*this program prins series of fabonaaci upto a very large numer each number is stored in 64bit
  * Date time 
  */
 #include<iostream>
