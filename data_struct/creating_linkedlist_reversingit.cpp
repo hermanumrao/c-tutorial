@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include<iostream>
 using namespace std;
+//constructing the structure for linked list
 struct link
 {
 	int value;
 	link *next;
 };
-
+//displaying the list using while loop
 void display(link *start)
 {
 	while(start != NULL)
@@ -17,7 +18,7 @@ void display(link *start)
 	}
 	cout<<endl;
 }
-
+//this function returns the reversed list after using a while loop to do reversal process
 link *rev_list(link *start)
 {
 	link *tmp=NULL;
@@ -31,7 +32,7 @@ link *rev_list(link *start)
 	}
 	return rev;
 }
-
+//function add new node to the existing root node which has the original linked list
 void AddNode(link *start,link *node )
 {
 	while(start->next!= NULL)
@@ -69,7 +70,7 @@ void AddNode(link *start,link *node )
 // 		printf("%s\n","" );
 // 	}
 // }
-
+// initialising and calling the functions
 int main()
 {
 	int a[]={1,2,3,4,5};
@@ -89,7 +90,7 @@ int main()
 	}
 	display(strtnode);
 	cout<<"________"<< endl;
-
+	//displaying the reversed list
 	display(rev_list(strtnode));	
 
 }
