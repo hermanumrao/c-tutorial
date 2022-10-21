@@ -1,8 +1,8 @@
-//this program prins series of fabonaaci
+//this program prints series of fabonaaci using recursion
 #include<iostream>
 #include<time.h>
 #include<stdint.h>
-// function to find next term of series
+// function retuns the next term of the series
 uint64_t fn(uint64_t a,uint64_t b,uint64_t n)
 {
 	uint64_t c=b+a;
@@ -18,6 +18,7 @@ uint64_t fn(uint64_t a,uint64_t b,uint64_t n)
 	}
 	return c ;
 }
+//initialising and calling the function
 int main()
 {
 	double start,end;
