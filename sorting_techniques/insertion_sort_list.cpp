@@ -1,13 +1,16 @@
+//using insertion sort to sort a linked list
+
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
 using namespace std;
+// using constructor to define the link list structure
 struct link
 {
 	int value;
 	link *next;
 };
-
+//function to display the linked list
 void display(link *start)
 {
 	while(start != NULL)
