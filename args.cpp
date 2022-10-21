@@ -1,3 +1,6 @@
+// I wrote this program to understand the working to argc and argv 
+//it is used to take input directly from user in terminal/cmd line itself and also count the number of inputs
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
