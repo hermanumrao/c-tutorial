@@ -1,4 +1,4 @@
-//this program prins series of fabonaaci
+//this program prints series of fabonaaci
 #include<stdio.h>
 // function to find next term of series
 int fn(int a,int b)
@@ -13,6 +13,7 @@ void main()
 	printf("%s\n","please input number of terms:" );
 	int n;
 	scanf("%d",&n) ;
+	// using while loop
 	while(n>1){
 		int x=fn(a,b);
 		n=n-1;
