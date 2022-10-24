@@ -73,11 +73,13 @@ int check_similar(int start,int start2,int end,const char *st,const char *st1)
     {
         tmp=end-start;
     }
-    else tmp=start-start2;
+    else 
+    tmp=start-start2;
+cout<<"tmp="<<tmp<<(start-start2)<<(end-start)<<endl;
     for (int it4=0;it4<tmp;it4++)
     {
-        if(st[start2+it4]==st1[start+it4]) x=x+1;
-        
+        cout<<"for looping"<<st[start+it4]<<st1[start2+it4]<<start+it4<<start2+it4;
+        if(st[start+it4]==st1[start2+it4]) x=x+1;        
     }
     
     return x;
@@ -104,12 +106,48 @@ stnode *overwrite(stnode *root,const char *st,int start2)
     return root;
 }
 
-bool search(stnode *root, const char *st,const char *st1)
+int search_similar(int start,int start2,int end,const char *st,const char *st1)
 {
-    if (root->children[int(st1[0])] != NULL)
+    int x;
+    int tmp;
+    if ((start-start2)>(end-start))
     {
-        cout<<"first char match";
+        tmp=start-end;
+    }
+    else tmp=start-start2;
+    cout<<"tmp="<<tmp<<endl<<(start-start2)<<(start-end)<<endl;
+    for (int it4=0;it4<tmp;it4++)
+    {
+        cout<<"for looping "<<st[start+it4]<<st1[start2+it4+1]<<start+it4<<start2+it4<<endl;
+        if(st[start+it4]==st1[start2+it4+1])
+        {
+            cout<<"entered if cond."<<endl;
+            x=x+1;        
+        }
 
+    }
+    
+    return x;
+}
+
+bool search(stnode *root, const char *st,const char *st1,int pos_st)
+{
+    if (root->children[pos(st1[0])] != NULL)
+    {
+        root=root->children[pos(st1[0])];
+        cout<<"first char matched";
+        int x =search_similar((root->start),pos_st,strlen(st1),st,st1);
+        x=x+1;
+        cout<<"x="<<x<<pos_st<<root->end<<st<<st1<<endl;
+        if (x>=strlen(st1)) return true;
+        else
+        {
+            if (x==(root->end - root->start))
+                {
+                    search(root->children[pos(st1[pos_st])],st,st1,(x+pos_st));
+                }
+            else return false;
+        }
     }
     else return false;
 }
@@ -142,5 +180,8 @@ int main()
 
     cout<<"--------"<<endl;
     stdisplay(root,st);
+    cout<<"--------"<<endl;
+    cout<<search(root,st,"ab",0)<<endl<<"^^^";
+
 
 }
