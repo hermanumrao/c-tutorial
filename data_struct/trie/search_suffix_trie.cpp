@@ -8,12 +8,12 @@ using namespace std ;
 
 #define alpha_max 27
 #define str_len 256 
-
+//constructing the structure for each node of the suffix tree
 struct stnode
 {
     int start;
     int end;
-    struct stnode *children[alpha_max];
+    struct stnode *children[alpha_max];  //using an array of the same node to keep the other
 };
 
 int pos(char a)
