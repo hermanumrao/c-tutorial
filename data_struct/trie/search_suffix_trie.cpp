@@ -65,7 +65,7 @@ void stdisplay(stnode *root,const char *st)
     }
 }
 
-int check_similar(int start,int start2,int end,const char *st,const char *st1)
+int check_similar(int start,int start2,int end,const char *st)
 {
     int x;
     int tmp;
@@ -75,11 +75,11 @@ int check_similar(int start,int start2,int end,const char *st,const char *st1)
     }
     else 
     tmp=start-start2;
-cout<<"tmp="<<tmp<<(start-start2)<<(end-start)<<endl;
+    cout<<"tmp="<<tmp<<(start-start2)<<(end-start)<<endl;
     for (int it4=0;it4<tmp;it4++)
     {
-        cout<<"for looping"<<st[start+it4]<<st1[start2+it4]<<start+it4<<start2+it4;
-        if(st[start+it4]==st1[start2+it4]) x=x+1;        
+        cout<<"for looping"<<st[start+it4]<<st[start2+it4]<<start+it4<<start2+it4;
+        if(st[start+it4]==st[start2+it4]) x=x+1;        
     }
     
     return x;
@@ -89,7 +89,7 @@ stnode *overwrite(stnode *root,const char *st,int start2)
 {
     int start=root->start;
     int end=root->end;
-    int x =check_similar(start,start2,end,st,st);
+    int x =check_similar(start,start2,end,st);
     if(start2<start)
     {
         root->end=(start+x);
@@ -106,22 +106,27 @@ stnode *overwrite(stnode *root,const char *st,int start2)
     return root;
 }
 
-int search_similar(int start,int start2,int end,const char *st,const char *st1)
+int search_similar(stnode *root,int end,const char *st,const char *st1)
 {
+    int start=root->start;
+    int start2=1;
     int x;
     int tmp;
-    if ((start-start2)>(end-start))
+    if ((end-start+1)==strlen(st1))
     {
         tmp=end-start;
     }
-    else tmp=start-start2;
-    cout<<"tmp="<<tmp<<endl<<(start-start2)<<(end-start)<<endl;
+    else
+    {
+        tmp=0;
+    }
+    cout<<"tmp="<<tmp<<endl<<(start-start2)<<(start-end)<<endl<<start<<start2<<end<<endl;
     for (int it4=0;it4<tmp;it4++)
     {
-        cout<<"for looping "<<st[start+it4]<<st1[start2+it4+1]<<start+it4<<start2+it4<<endl;
-        if(st[start+it4]==st1[start2+it4+1])
+        cout<<"for looping "<<st[start+it4]<<st1[start2+it4]<<start+it4<<start2+it4<<endl;
+        if(st[start+it4]==st1[start2+it4])
         {
-            cout<<"entered if cond."<<endl;
+            cout<<"if cond. satisfied"<<endl;
             x=x+1;        
         }
 
@@ -130,32 +135,28 @@ int search_similar(int start,int start2,int end,const char *st,const char *st1)
     return x;
 }
 
-bool search(stnode *root, const char *st,const char *st1,int pos_st)
+bool search(stnode *root, const char *st,const char *st1)
 {
     if (root->children[pos(st1[0])] != NULL)
     {
         root=root->children[pos(st1[0])];
-        cout<<"first char matched";
-        int x =search_similar((root->start),pos_st,root->end,st,st1);
+        cout<<"first char matched"<<endl<<root->start<<strlen(st1)<<st<<st1;
+        int x;
+        if (strlen(st1)>1) x =search_similar(root,strlen(st1),st,st1);
         x=x+1;
-        cout<<"x="<<x<<pos_st<<root->end<<st<<st1<<endl;
+        cout<<"x="<<x<<root->end<<st<<st1<<endl;
         if (x>=strlen(st1)) return true;
         else
         {
-            if (x==(root->end - root->start))
-                {
-                    search(root->children[pos(st1[pos_st])],st,st1,(x+pos_st));
-                }
-            else return false;
+            return false;
         }
     }
     else return false;
 }
 
-
 int main()
 {
-    char st[str_len] ="abcdabd";
+    char st[str_len] ="abcab";
     int tmp = strlen(st);
     st[tmp]='#';
     cout<<st<<tmp<<endl;
@@ -174,13 +175,9 @@ int main()
             root->children[pos(st[it])]=overwrite(root->children[pos(st[it])],st,it+1);
 
         }
-
     }
-    
-
     cout<<"--------"<<endl;
     stdisplay(root,st);
     cout<<"--------"<<endl;
-    cout<<search(root,st,"abc",0)<<endl;
-
+    cout<<search(root,st,"ab")<<endl<<"^^^";
 }
