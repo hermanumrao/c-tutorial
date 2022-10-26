@@ -127,7 +127,7 @@ int main()
     int x=0;
     int lvl=check_height(n1);
     cout<<"--"<<lvl<<endl;
-    while ((x+1)<lvl)
+    while ((x)<lvl)
     {
         sort_tree(n1);
         x=x+1;
