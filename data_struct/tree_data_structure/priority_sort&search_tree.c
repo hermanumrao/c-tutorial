@@ -149,8 +149,9 @@ int main()
     }
     print_tree(n1,0);
     cout<<"-----------------------"<<endl;
-    int item=3;
-    //cin>>item;
+    int item;
+    cout<<"input item to search";
+    cin>>item;
     bool ans=false;
     search_tree(n1,item,ans);
     if (ans==true)
