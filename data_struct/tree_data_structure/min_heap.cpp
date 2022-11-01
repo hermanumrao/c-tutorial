@@ -1,4 +1,4 @@
-//min_heap
+//min_tree
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
@@ -44,6 +44,22 @@ treenode *create_node(int value)
 }
 
 
+int check_height(treenode *node)
+{
+    if (node == NULL)
+        return 0;
+    else {
+        /* compute the depth of each subtree */
+        int lDepth = check_height(node->left);
+        int rDepth = check_height(node->right);
+ 
+        /* use the larger one */
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
+}
 
 void print_tabs(int i)
 {
@@ -71,48 +87,53 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-int check_height(treenode *node)
-{
-    if (node == NULL)
-        return 0;
-    else {
-        /* compute the depth of each subtree */
-        int lDepth = check_height(node->left);
-        int rDepth = check_height(node->right);
- 
-        /* use the larger one */
-        if (lDepth > rDepth)
-            return (lDepth + 1);
-        else
-            return (rDepth + 1);
-    }
-}
 
 
 void sort_tree(treenode *root)
 {
-    if (root->right==NULL || root->left==NULL)
+    if (root==NULL || (root->right==NULL && root->left==NULL))
     {
         return ;
     }
+    sort_tree(root->right);
     int a=root->value;
-    int b=root->left->value;
-    int c=root->right->value;
-    if (b<a || c<a)
+    if (root->left==NULL )
     {
-        if(b<c)
-        {
-            root->value=b;
-            root->left->value=a;
-        }
-        else
+        int c=root->right->value;
+        if (c<a)
         {
             root->value=c;
             root->right->value=a;
         }
     }
+    if (root->right==NULL)
+    {
+        int b=root->left->value;
+        if(b<a)
+        {
+            root->value=b;
+            root->left->value=a;
+        }
+    }
+    if (root->right!=NULL && root->left!=NULL)
+    {
+        int b=root->left->value;
+        int c=root->right->value;
+        if (b<a || c<a)
+        {
+            if(b<c)
+            {
+                root->value=b;
+                root->left->value=a;
+            }
+            else
+            {
+                root->value=c;
+                root->right->value=a;
+            }
+        }
+    }
     sort_tree(root->left);
-    sort_tree(root->right);
 }
 
 
@@ -140,7 +161,7 @@ int main()
 
     int x=0;
     int lvl=check_height(n4);
-    cout<<"--"<<lvl<<endl;
+    cout<<"level="<<lvl<<endl;
     while ((x+1)<lvl)
     {
         sort_tree(n4);
