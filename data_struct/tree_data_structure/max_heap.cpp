@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
-#include <queue>
 #include <stdbool.h>
 using namespace std ;
+
+
 
 /*
 INITIAL INPUT
@@ -61,6 +62,22 @@ treenode *create_node(int value)
 }
 
 
+int check_height(treenode *node)
+{
+    if (node == NULL)
+        return 0;
+    else {
+        /* compute the depth of each subtree */
+        int lDepth = check_height(node->left);
+        int rDepth = check_height(node->right);
+ 
+        /* use the larger one */
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
+}
 
 void print_tabs(int i)
 {
@@ -88,22 +105,6 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-int check_height(treenode *node)
-{
-    if (node == NULL)
-        return 0;
-    else {
-        /* compute the depth of each subtree */
-        int lDepth = check_height(node->left);
-        int rDepth = check_height(node->right);
- 
-        /* use the larger one */
-        if (lDepth > rDepth)
-            return (lDepth + 1);
-        else
-            return (rDepth + 1);
-    }
-}
 
 
 void sort_tree(treenode *root)
@@ -112,6 +113,7 @@ void sort_tree(treenode *root)
     {
         return ;
     }
+    sort_tree(root->right);
     int a=root->value;
     if (root->left==NULL )
     {
@@ -131,7 +133,6 @@ void sort_tree(treenode *root)
             root->left->value=a;
         }
     }
-    sort_tree(root->right);
     if (root->right!=NULL && root->left!=NULL)
     {
         int b=root->left->value;
@@ -170,7 +171,7 @@ int main()
     n2->left= n1;
     n2->right = n3;
     n8->left= n6;
-    n8->right = n9;
+    //n8->right = n9;
     n6->right= n7;
     n6->left= n5;
     print_tree(n4,0);
@@ -187,3 +188,4 @@ int main()
     print_tree(n4,0);
     cout<<"-----------------------"<<endl;
 }
+
