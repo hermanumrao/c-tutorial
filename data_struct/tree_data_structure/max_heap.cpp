@@ -17,14 +17,31 @@ INITIAL INPUT
   5  7
 
 OUTPUT:
-   1
+   9
   / \ 
- 2   5 
+ 3   8 
 / \  /\
-4 3 6  9
+1 3 7  4
    /\
-  8  7
+  5  6
 
+INITIAL INPUT(2)
+   4
+  / \ 
+ 2   8 
+/ \  /\
+1 3 6  
+   /\
+  5  7
+
+OUTPUT:
+   9
+  / \ 
+ 3   7 
+/ \  /
+1 3 6  
+   /\
+  5  4
         */
 
 struct treenode
@@ -91,28 +108,49 @@ int check_height(treenode *node)
 
 void sort_tree(treenode *root)
 {
-    if (root->right==NULL || root->left==NULL)
+    if (root==NULL || (root->right==NULL && root->left==NULL))
     {
         return ;
     }
     int a=root->value;
-    int b=root->left->value;
-    int c=root->right->value;
-    if (b>a || c>a)
+    if (root->left==NULL )
     {
-        if(b>c)
-        {
-            root->value=b;
-            root->left->value=a;
-        }
-        else
+        int c=root->right->value;
+        if (c>a)
         {
             root->value=c;
             root->right->value=a;
         }
     }
-    sort_tree(root->left);
+    if (root->right==NULL)
+    {
+        int b=root->left->value;
+        if(b>a)
+        {
+            root->value=b;
+            root->left->value=a;
+        }
+    }
     sort_tree(root->right);
+    if (root->right!=NULL && root->left!=NULL)
+    {
+        int b=root->left->value;
+        int c=root->right->value;
+        if (b>a || c>a)
+        {
+            if(b>c)
+            {
+                root->value=b;
+                root->left->value=a;
+            }
+            else
+            {
+                root->value=c;
+                root->right->value=a;
+            }
+        }
+    }
+    sort_tree(root->left);
 }
 
 
@@ -140,7 +178,7 @@ int main()
 
     int x=0;
     int lvl=check_height(n4);
-    cout<<"--"<<lvl<<endl;
+    cout<<"level="<<lvl<<endl;
     while ((x+1)<lvl)
     {
         sort_tree(n4);
