@@ -1,23 +1,17 @@
-//convert array to BST
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
-#include <bits/stdc++.h>
 using namespace std ;
 
-
 /*
-[1,2,3,4,5,6,7,8,9]
-
-       5
-     /  \ 
-    2    7 
-   / \   /\
-  1  3  6  8
-      \    \
-       4    9
-        
-*/
+      1
+     / \ 
+    2   3 
+   / \  /\
+  4  5 6  7
+ /\
+8  9
+        */
 
 struct treenode
 {
@@ -26,7 +20,8 @@ struct treenode
     struct treenode *right;
 
 };
-treenode *crt_node(int value )
+
+treenode *crt_node(int value)
 {
     treenode *node =new treenode();
     node->value=value;
@@ -34,6 +29,8 @@ treenode *crt_node(int value )
     node->right=NULL;
     return node;
 }
+
+
 
 void print_tabs(int i)
 {
@@ -61,25 +58,26 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-
-treenode *ins_tree(int *arr,int start,int end)
+void ins_tree(treenode *root,int *arr,int &i,int maxl)
 {
-    if (end<start) return NULL;
-    int mid=(start+end)/2;
-    treenode *root=crt_node(arr[mid]);
-    root->left=ins_tree(arr,start,mid-1);
-    root->right=ins_tree(arr,mid+1,end);
-    return root;
+    if (2*i+1>=maxl) return;
+    root->left=crt_node(arr[2*i+1]);
+    if (2*i+2>=maxl) return;
+    root->right=crt_node(arr[2*i+2]);
+    int a=2*i+1;
+    ins_tree(root->left,arr,a,maxl);
+
+    int b=2*i+2;
+    ins_tree(root->right,arr,b,maxl);
+
 }
 
 int main()
 {
     int arr[]={1,2,3,4,5,6,7,8,9};
     treenode *root = crt_node(arr[0]);
-    int l=sizeof(arr)/sizeof(arr[0]);
-    int i=1;
-    root=ins_tree(arr,0,l-1);
+    int i=0;
+    ins_tree(root,arr,i,(sizeof(arr)/sizeof(arr[0])));
     print_tree(root,0);
     return 0;
 }
-
