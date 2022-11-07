@@ -1,1 +1,6 @@
-Converting Binary Search Tree into an Array (TreeToArray())
+insertion into BST
+AVL tree
+red black tree
+heap sort
+A ternary search tree
+skip lists
