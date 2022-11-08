@@ -7,15 +7,21 @@ using namespace std ;
 
 
 /*
-[1,2,3,4,5,6,7,8]
+{1,2,3,5,6,7,8,9}
 
-       4
+       5
      /  \ 
-    2    6 
+    2    7 
    / \   /\
-  1  3  5  7
-            \
-             8 
+  1  3  6  8
+            
+       5
+     /  \ 
+    2    7 
+   / \   /\
+  1  3  6  8
+     |
+     4     
         
 */
 
@@ -63,6 +69,7 @@ void print_tree(treenode *root, int level)
 
 bool search_tree(treenode *root, int item)
 {
+    if (root==NULL) return false;
     int val=root->value;
     if (val==item) 
     {
@@ -73,6 +80,43 @@ bool search_tree(treenode *root, int item)
     else return search_tree(root->right,item);
 }
 
+bool ins_node(treenode *root,int item)
+{
+    //when root has no childeren
+    if (root->left==NULL && root->right==NULL)
+    {
+        if (root->value>item) 
+        {
+            root->left=crt_node(item);
+            return true;
+        }
+        else 
+        {
+            root->right=crt_node(item);
+            return true;
+        }
+    }
+    //when root has one child
+    if (root->value<item && root->right==NULL) 
+    {
+        root->right=crt_node(item);
+        return true;
+    }
+    if (root->value>item && root->left==NULL) 
+    {
+        root->left=crt_node(item);
+        return true;
+    }
+    //in last case if root turns out to have 2 childeren
+    if (root->value>item) 
+    {
+        return ins_node(root->left,item);
+    }
+    else 
+    {
+        return ins_node(root->right,item);
+    }
+}
 
 treenode *ins_tree(int *arr,int start,int end)
 {
@@ -86,18 +130,20 @@ treenode *ins_tree(int *arr,int start,int end)
 
 int main()
 {
-    int arr[]={1,2,3,4,5,6,7,8};
+    int arr[]={1,2,3,5,6,7,8,9};
     treenode *root = crt_node(arr[0]);
     int l=sizeof(arr)/sizeof(arr[0]);
     int i=1;
     root=ins_tree(arr,0,l-1);
     print_tree(root,0);
-    int item;
-    cin>>item;
+    int item=4;
+    //cin>>item;
     bool found=search_tree(root,item);
-    if(found==false) cout<<"item is not in array"<<endl;
-    else cout<<"found item";
-
+    if(found==false) cout<<"item is not in array"<<ins_node(root,item)<< endl;
+    else cout<<"item already exists"<<endl;
+    cout<<"-----------------------"<<endl;
+    print_tree(root,0);
     return 0;
 }
 
+    

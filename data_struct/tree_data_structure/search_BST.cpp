@@ -63,6 +63,7 @@ void print_tree(treenode *root, int level)
 
 bool search_tree(treenode *root, int item)
 {
+     if (root==NULL) return false;
     int val=root->value;
     if (val==item) 
     {
