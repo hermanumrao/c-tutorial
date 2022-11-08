@@ -93,8 +93,8 @@ int main()
     int i=1;
     root=ins_tree(arr,0,l-1);
     print_tree(root,0);
-    int item=7;
-    //cin>>item;
+    int item;
+    cin>>item;
     bool found=search_tree(root,item);
     if(found==false) cout<<"item is not in array"<<endl;
     else cout<<"found item";
