@@ -1,4 +1,3 @@
-insertion into BST
 AVL tree
 red black tree
 heap sort
