@@ -2,20 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
-#include<stdbool.h>
+#include <bits/stdc++.h>
 using namespace std ;
 
 
 /*
-[1,2,3,4,5,6,7,8]
-
-       4
+       5
      /  \ 
-    2    6 
+    2    7 
    / \   /\
-  1  3  5  7
-            \
-             8 
+  1  3  6  8
+      \    \
+       4    9
+
+
+[1,2,3,4,5,6,7,8,9]
         
 */
 
@@ -33,6 +34,12 @@ treenode *crt_node(int value )
     node->left=NULL;
     node->right=NULL;
     return node;
+}
+
+int treeSize(treenode* root) {
+    if(root == NULL) return 0;
+    else
+        return treeSize(root->left) + treeSize(root->right) + 1;
 }
 
 void print_tabs(int i)
@@ -61,19 +68,15 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-bool search_tree(treenode *root, int item)
+void BSTtoArray(treenode *root, int *arr, int &pos)
 {
-     if (root==NULL) return false;
-    int val=root->value;
-    if (val==item) 
-    {
-        return true;
-    }
-    if (root->left==NULL && root->right==NULL) return false;
-    if (val>item) return search_tree(root->left,item);
-    else return search_tree(root->right,item);
-}
+    if(root == NULL) return;
 
+    BSTtoArray(root->left, arr, pos);
+    arr[pos++] = root->value;
+    BSTtoArray(root->right,arr,pos);
+
+}
 
 treenode *ins_tree(int *arr,int start,int end)
 {
@@ -87,18 +90,16 @@ treenode *ins_tree(int *arr,int start,int end)
 
 int main()
 {
-    int arr[]={1,2,3,4,5,6,7,8};
+    int arr[]={1,2,3,4,5,6,7,8,9};
     treenode *root = crt_node(arr[0]);
     int l=sizeof(arr)/sizeof(arr[0]);
-    int i=1;
+    int i=0;
     root=ins_tree(arr,0,l-1);
     print_tree(root,0);
-    int item=7;
-    //cin>>item;
-    bool found=search_tree(root,item);
-    if(found==false) cout<<"item is not in array"<<endl;
-    else cout<<"found item";
-
+    int len=treeSize(root);
+    int new_arr[len];
+    BSTtoArray(root, new_arr,i);
+    for (int it=0;it<len;it++) cout<<arr[it]<<" ";
     return 0;
 }
 
