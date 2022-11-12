@@ -1,4 +1,4 @@
-//convert array to BST
+//program to convert BST to Array
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
@@ -93,11 +93,11 @@ int main()
     int arr[]={1,2,3,4,5,6,7,8,9};
     treenode *root = crt_node(arr[0]);
     int l=sizeof(arr)/sizeof(arr[0]);
-    int i=0;
     root=ins_tree(arr,0,l-1);
     print_tree(root,0);
     int len=treeSize(root);
     int new_arr[len];
+    int i=0;
     BSTtoArray(root, new_arr,i);
     for (int it=0;it<len;it++) cout<<arr[it]<<" ";
     return 0;
