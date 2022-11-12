@@ -5,52 +5,11 @@
 #include <stdbool.h>
 using namespace std ;
 
-
-
-/*
-INITIAL INPUT
-   4
-  / \ 
- 2   8 
-/ \  /\
-1 3 6  9
-   /\
-  5  7
-
-OUTPUT:
-   9
-  / \ 
- 3   8 
-/ \  /\
-1 3 7  4
-   /\
-  5  6
-
-INITIAL INPUT(2)
-   4
-  / \ 
- 2   8 
-/ \  /\
-1 3 6  
-   /\
-  5  7
-
-OUTPUT:
-   9
-  / \ 
- 3   7 
-/ \  /
-1 3 6  
-   /\
-  5  4
-        */
-
 struct treenode
 {
     int value;
     struct treenode *left;
     struct treenode *right;
-
 };
 treenode *create_node(int value)
 {
