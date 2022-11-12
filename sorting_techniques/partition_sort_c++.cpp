@@ -34,16 +34,9 @@ void merge(int *L , int l,int *R,int r, int *v,int Index)
 	int j=0;
 	if (l<=0 || r<=0)
 	{
-		printf("%s\n","invalid values");
 		return;
 	}
 
-	display1(L,l);
-	printf("%s\n","--L");
-	display1(R,r);
-	printf("%s\n","--R");
-	printf("%s\t","initial");
-	display1(v,l+r);
 
 	while(i<l && j<r)
 	{
@@ -79,8 +72,6 @@ void merge(int *L , int l,int *R,int r, int *v,int Index)
 			++k;
 		}
 	}
-	printf("%s\n","merge 2");
-	display1(v,k);
 }
 
 
@@ -123,8 +114,6 @@ void merge_sorted_vec(vector<int> & v1 , vector<int> & v2,vector<int> & v3 )
 			++k;
 		}
 	}
-	std::cout<<"merging";
-	display(v3);
 }
 
 
@@ -136,8 +125,6 @@ vector<int> fill(vector<int> & v, int be , int end)
 		vec.push_back(v[be]) ;
 		be++;
 	}
-	cout<<"vec=";
-	display(vec);
 	return vec;
 	
 
@@ -154,10 +141,6 @@ void partition(vector<int> &v, int s,int e,int a)
 		partition(v,m+1,e,2);
 		vector<int> L=fill(v,s,m);
 		vector<int> R=fill(v,m+1,e);
-		cout<<"L=";
-		display(L);
-		cout<<"R=";
-		display(R);
 		merge(&L[0],L.size(),&R[0],R.size(),&v[0],s);
 	}
 
@@ -167,16 +150,10 @@ void partition(vector<int> &v, int s,int e,int a)
 int main ()
 {
 	
-	vector<int> v={4,7,5,8,6,3,2,1};
+	vector<int> v={4,7,6,5,3,8,2,9,1};
 	display(v);
-	std::cout<< "__"<< std::endl<< std::flush;
 	int m=v.size();
-	cout<<m<<endl;
-	// vector<int> L= fill(v,0,m/2);
-	// vector<int> R= fill(v,m/2,m);
-	// display(L);
-	// display(R);
 	partition(v,0,m-1,0);
-
+	display(v);
 	return 0;
 }
