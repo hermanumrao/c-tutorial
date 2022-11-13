@@ -1,44 +1,25 @@
-//convert array to BST
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
-#include<stdbool.h>
+#include <queue>
 using namespace std ;
-
-
-/*
-{1,2,3,5,6,7,8,9}
-
-       5
-     /  \ 
-    2    7 
-   / \   /\
-  1  3  6  8
-            
-       5
-     /  \ 
-    2    7 
-   / \   /\
-  1  3  6  8
-     |
-     4     
-        
-*/
-
 struct treenode
 {
-    int value;
-    struct treenode *left;
-    struct treenode *right;
+	int value;
+	/* use struct only when you want to insert another tree at that node*/
+	struct treenode *left;
+	struct treenode *right;
+    struct treenode *parent;
 
 };
-treenode *crt_node(int value )
+treenode *create_node(int value)
 {
-    treenode *node =new treenode();
-    node->value=value;
-    node->left=NULL;
-    node->right=NULL;
-    return node;
+	treenode *node =new treenode();
+	node->value=value;
+	node->left=NULL;
+	node->right=NULL;
+    node->parent=NULL;
+	return node;
 }
 
 void print_tabs(int i)
@@ -67,6 +48,55 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
+int check_height(treenode *node)
+{
+    if (node == NULL)
+        return 0;
+    else {
+        /* compute the depth of each subtree */
+        int lDepth = check_height(node->left);
+        int rDepth = check_height(node->right);
+ 
+        /* use the larger one */
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
+}
+bool check_balanced(treenode *root)
+{
+    int a=check_height(root->left);
+    int b=check_height(root->right);
+    if (a==0 and b==0)
+    {
+        return true;
+    }
+    //cout<<"-->"<<a<<b;
+    if (a==b or (a+1)==b or a==(b+1))
+    {
+        //cout<<"gotcha";
+        check_balanced(root->left);
+        check_balanced(root->right);
+    }
+    else return false;
+}
+
+treenode * rt_rot(treenode *root)
+{
+    root->left->right=create_node(root->value);
+    root=root->left;
+    delete(root->parent);
+    return root; 
+}
+treenode * l_rot(treenode *root)
+{
+    root->right->left=create_node(root->value);
+    root=root->right;
+    delete(root->parent);
+    return root; 
+}
+
 bool search_tree(treenode *root, int item)
 {
     if (root==NULL) return false;
@@ -79,7 +109,6 @@ bool search_tree(treenode *root, int item)
     if (val>item) return search_tree(root->left,item);
     else return search_tree(root->right,item);
 }
-
 bool ins_node(treenode *root,int item)
 {
     //when root has no childeren
@@ -87,24 +116,24 @@ bool ins_node(treenode *root,int item)
     {
         if (root->value>item) 
         {
-            root->left=crt_node(item);
+            root->left=create_node(item);
             return true;
         }
         else 
         {
-            root->right=crt_node(item);
+            root->right=create_node(item);
             return true;
         }
     }
     //when root has one child
     if (root->value<item && root->right==NULL) 
     {
-        root->right=crt_node(item);
+        root->right=create_node(item);
         return true;
     }
     if (root->value>item && root->left==NULL) 
     {
-        root->left=crt_node(item);
+        root->left=create_node(item);
         return true;
     }
     //in last case if root turns out to have 2 childeren
@@ -122,31 +151,43 @@ treenode *ins_tree(int *arr,int start,int end)
 {
     if (end<start) return NULL;
     int mid=(start+end)/2;
-    treenode *root=crt_node(arr[mid]);
+    treenode *root=create_node(arr[mid]);
     root->left=ins_tree(arr,start,mid-1);
     root->right=ins_tree(arr,mid+1,end);
     return root;
 }
 
+void insertion(treenode *root,int item)
+{
+    bool found=search_tree(root,item);
+    if(found==false) cout<<"item is not in array"<<ins_node(root,item)<< endl;
+    else cout<<"item already exists"<<endl;
+}
+
 int main()
 {
-    int arr[]={1,2,3,5,6,7,8,9};
-    treenode *root = crt_node(arr[0]);
+    int arr[]={};
+    treenode *root = create_node(arr[0]);
     int l=sizeof(arr)/sizeof(arr[0]);
     int i=1;
     root=ins_tree(arr,0,l-1);
     print_tree(root,0);
-    int item;
-    for (int it=0; it<5; it++)
-    {
-    	cin>>item;
-	    bool found=search_tree(root,item);
-	    if(found==false) cout<<"item is not in array"<<ins_node(root,item)<< endl;
-	    else cout<<"item already exists"<<endl;
-	    cout<<"-----------------------"<<endl;
-	}
+    //insertion(root,4);
+    //insertion(root,5);
+    cout<<"-----------------------"<<endl;
     print_tree(root,0);
+    int bal=check_height(root);
+    cout<<"bal="<<bal;
     return 0;
 }
+/*
+    1
+   /
+  2
+ /
+3
+  1
+ / \ 
+2   3 
 
-    
+		*/
