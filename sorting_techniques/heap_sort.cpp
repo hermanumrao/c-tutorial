@@ -36,19 +36,8 @@ void disp_arr(int *arr, int l)
 
 int check_height(treenode *node)
 {
-    if (node == NULL)
-        return 0;
-    else {
-        /* compute the depth of each subtree */
-        int lDepth = check_height(node->left);
-        int rDepth = check_height(node->right);
- 
-        /* use the larger one */
-        if (lDepth > rDepth)
-            return (lDepth + 1);
-        else
-            return (rDepth + 1);
-    }
+    if (node == NULL) return 0;
+    else return (1+max(check_height(node->left),check_height(node->right)));
 }
 
 void max_heap(treenode *root)
@@ -120,7 +109,7 @@ treenode *heapify(int *arr,int start,int end)
 
 int main()
 {
-    int arr[]={4,7,6,5,3,8,2,9,1};
+    int arr[]={4,7,6,5,3,8,2,11,15,63,144,1};
     int l=sizeof(arr)/sizeof(arr[0]);
     int pos;
     for (int it2=0;it2<l;it2++)

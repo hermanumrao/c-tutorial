@@ -50,37 +50,11 @@ void print_tree(treenode *root, int level)
 
 int check_height(treenode *node)
 {
-    if (node == NULL)
-        return 0;
-    else {
-        /* compute the depth of each subtree */
-        int lDepth = check_height(node->left);
-        int rDepth = check_height(node->right);
- 
-        /* use the larger one */
-        if (lDepth > rDepth)
-            return (lDepth + 1);
-        else
-            return (rDepth + 1);
-    }
+    if (node == NULL) return 0;
+    else return (1+max(check_height(node->left),check_height(node->right)));
 }
-bool check_balanced(treenode *root)
-{
-    int a=check_height(root->left);
-    int b=check_height(root->right);
-    if (a==0 and b==0)
-    {
-        return true;
-    }
-    //cout<<"-->"<<a<<b;
-    if (a==b or (a+1)==b or a==(b+1))
-    {
-        //cout<<"gotcha";
-        check_balanced(root->left);
-        check_balanced(root->right);
-    }
-    else return false;
-}
+
+
 
 int main()
 {
@@ -102,7 +76,7 @@ int main()
     n6->right= n9;
     n6->left= n8;
 
-    cout<<check_balanced(n1);
+    cout<<check_height(n1);
 
 }
 /*

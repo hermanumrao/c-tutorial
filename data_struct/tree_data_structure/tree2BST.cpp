@@ -81,16 +81,10 @@ void BSTtoArray(treenode *root, int *arr, int &pos)
     BSTtoArray(root->right,arr,pos);
 
 }
-int check_height(treenode *root,int lvl)
+int check_height(treenode *node)
 {
-	if (root==NULL)
-	{
-		cout<<"-- ";
-		return lvl ;
-	}
-    
-	check_height(root->left,lvl+1);
-	check_height(root->right,lvl+1);
+    if (node == NULL) return 0;
+    else return (1+max(check_height(node->left),check_height(node->right)));
 }
 
 treenode *ins_tree(int *arr,int start,int end)
