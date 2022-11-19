@@ -84,62 +84,7 @@ treenode * l_rt_rot(treenode *root)
     root=rt_rot(root);
     return root;
 }
-bool search_tree(treenode *root, int item)//checks if the value to be inserted already exits in tree
-{
-    if (root==NULL) return false;
-    int val=root->value;
-    if (val==item) 
-    {
-        return true;
-    }
-    if (root->left==NULL && root->right==NULL) return false;
-    if (val>item) return search_tree(root->left,item);
-    else return search_tree(root->right,item);
-}
-bool ins_node(treenode *root,int item)//inserts new node
-{
-    //when root has no childeren
-    if (root->left==NULL && root->right==NULL)
-    {
-        if (root->value>item) 
-        {
-            root->left=create_node(item);
-            return true;
-        }
-        else 
-        {
-            root->right=create_node(item);
-            return true;
-        }
-    }
-    //when root has one child
-    if (root->value<item && root->right==NULL) 
-    {
-        root->right=create_node(item);
-        return true;
-    }
-    if (root->value>item && root->left==NULL) 
-    {
-        root->left=create_node(item);
-        return true;
-    }
-    //in last case if root turns out to have 2 childeren
-    if (root->value>item) 
-    {
-        return ins_node(root->left,item);
-    }
-    else 
-    {
-        return ins_node(root->right,item);
-    }
-}
 
-void insertion(treenode *root,int item)//insert new elment to BST by calling ins_node fn
-{
-    bool found=search_tree(root,item);
-    if(found==false) cout<<"item is not in array"<<ins_node(root,item)<< endl;
-    else cout<<"item already exists"<<endl;
-}
 
 int main()
 {
