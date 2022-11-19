@@ -9,7 +9,7 @@ struct treenode
 	/* use struct only when you want to insert another tree at that node*/
 	struct treenode *left;
 	struct treenode *right;
-    struct treenode *parent;
+    int height;
 
 };
 treenode *create_node(int value)
@@ -18,7 +18,7 @@ treenode *create_node(int value)
 	node->value=value;
 	node->left=NULL;
 	node->right=NULL;
-    node->parent=NULL;
+    node->height=1;
 	return node;
 }
 
@@ -37,7 +37,7 @@ void print_tree(treenode *root, int level)
         cout<<"-- ";
         return;
     }
-    cout<<"value="<<root->value<<endl;
+    cout<<"value="<<root->value<<'|'<<root->height<<endl;
     print_tabs(level);
     cout<<"left=";
     print_tree(root->left,level+1);
@@ -48,44 +48,43 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-int check_height(treenode *node)
+int check_height(treenode *node)//returns the height of the tree
 {
-    
-}
-bool check_balanced(treenode *root)
-{
-    int a=check_height(root->left);
-    int b=check_height(root->right);
-    if (a==0 and b==0)
-    {
-        return true;
-    }
-    //cout<<"-->"<<a<<b;
-    if (a==b or (a+1)==b or a==(b+1))
-    {
-        //cout<<"gotcha";
-        check_balanced(root->left);
-        check_balanced(root->right);
-    }
-    else return false;
+    if (node == NULL) return 0;
+    else return (1+max(check_height(node->left),check_height(node->right)));
 }
 
-treenode * rt_rot(treenode *root)
+treenode * rt_rot( treenode *root)
 {
-    root->left->right=create_node(root->value);
-    root=root->left;
-    delete(root->parent);
-    return root; 
+    treenode * temp=root->right;
+    root->right=root->right->left;
+    root->height= max(check_height(root->left), check_height(root->right)) + 1;
+    temp->left=root;
+    temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
+    return temp;
 }
-treenode * l_rot(treenode *root)
+treenode * l_rot( treenode *root)
 {
-    root->right->left=create_node(root->value);
-    root=root->right;
-    delete(root->parent);
-    return root; 
+    treenode * temp=root->left;
+    root->left=root->left->right;
+    root->height= max(check_height(root->left), check_height(root->right)) + 1;
+    temp->right=root;
+    temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
+    return temp;
 }
-
-bool search_tree(treenode *root, int item)
+treenode * rt_l_rot(treenode *root)
+{
+    root->left=rt_rot(root->left);
+    root=l_rot(root);
+    return root;
+}
+treenode * l_rt_rot(treenode *root)
+{
+    root->right=l_rot(root->right);
+    root=rt_rot(root);
+    return root;
+}
+bool search_tree(treenode *root, int item)//checks if the value to be inserted already exits in tree
 {
     if (root==NULL) return false;
     int val=root->value;
@@ -97,7 +96,7 @@ bool search_tree(treenode *root, int item)
     if (val>item) return search_tree(root->left,item);
     else return search_tree(root->right,item);
 }
-bool ins_node(treenode *root,int item)
+bool ins_node(treenode *root,int item)//inserts new node
 {
     //when root has no childeren
     if (root->left==NULL && root->right==NULL)
@@ -135,17 +134,7 @@ bool ins_node(treenode *root,int item)
     }
 }
 
-treenode *ins_tree(int *arr,int start,int end)
-{
-    if (end<start) return NULL;
-    int mid=(start+end)/2;
-    treenode *root=create_node(arr[mid]);
-    root->left=ins_tree(arr,start,mid-1);
-    root->right=ins_tree(arr,mid+1,end);
-    return root;
-}
-
-void insertion(treenode *root,int item)
+void insertion(treenode *root,int item)//insert new elment to BST by calling ins_node fn
 {
     bool found=search_tree(root,item);
     if(found==false) cout<<"item is not in array"<<ins_node(root,item)<< endl;
@@ -154,18 +143,15 @@ void insertion(treenode *root,int item)
 
 int main()
 {
-    int arr[]={};
-    treenode *root = create_node(arr[0]);
-    int l=sizeof(arr)/sizeof(arr[0]);
+    treenode *root = create_node(2);
     int i=1;
-    root=ins_tree(arr,0,l-1);
     print_tree(root,0);
-    //insertion(root,4);
-    //insertion(root,5);
+    insertion(root,1);
+    insertion(root,3);
     cout<<"-----------------------"<<endl;
     print_tree(root,0);
-    int bal=check_height(root);
-    cout<<"bal="<<bal;
+    cout<<"-----------------------"<<endl;
+    print_tree(root,0);
     return 0;
 }
 /*
