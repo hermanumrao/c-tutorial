@@ -1,3 +1,4 @@
+
 //convert array to BST
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,7 +70,7 @@ void print_tree(treenode *root, int level)
     cout<<endl;
 }
 
-int del_successor(treenode *node)
+int del_successor(treenode *node)//deletes the successor node and returns val of the successor node to the original function
 {
     if (node->left->left!=NULL) return del_successor(node->left);
     else
@@ -86,14 +87,13 @@ bool check_node(treenode *root, int item)
 {
     if (root==NULL) return false;
     if (root->left==NULL && root->right==NULL)return false;
-    if (root->value>item)
+    if (item<(root->value))
     {
         if(root->left->value==item)
         {
-            if (root->left->right==NULL && root->left->left==NULL) 
+            if (root->left->right!=NULL && root->left->left!=NULL) 
             {
-                delete(root->left);
-                root->left=NULL;
+                root->left->value=del_successor(root->left);
                 return true;
             }
             else if (root->left->right==NULL)
@@ -103,21 +103,13 @@ bool check_node(treenode *root, int item)
                 root->left=tmp;
                 return true;
             }
-            else if (root->left->left==NULL)
+            else 
             {
                 treenode *tmp=root->left->right;
                 delete(root->left);
                 root->left=tmp;
                 return true;
             }
-            else
-            {
-                root->left->value=del_successor(root->left);
-                cout<<"third case";
-                return true;
-            }
-            cout<<"found item"<<endl;
-            //return false;
         }
         else return check_node(root->left,item);
     }
@@ -125,10 +117,9 @@ bool check_node(treenode *root, int item)
     {
         if (root->right->value==item) 
         {
-            if (root->right->right==NULL && root->right->left==NULL) 
+            if (root->right->right!=NULL || root->right->left!=NULL) 
             {
-                delete(root->right);
-                root->left=NULL;
+                root->right->value=del_successor(root->right);
                 return true;
             }
             else if (root->right->left==NULL)
@@ -138,21 +129,13 @@ bool check_node(treenode *root, int item)
                 root->right=tmp;
                 return true;
             }
-            else if (root->right->right==NULL)
+            else 
             {
                 treenode *tmp=root->right->left;
                 delete(root->right);
                 root->right=tmp;
                 return true;
             }
-            else
-            {
-                root->right->value=del_successor(root->right);
-                cout<<"third case";
-                return true;
-            }
-            cout<<"found item"<<endl;
-            //return false;
         }
         else return check_node(root->right,item);
     }
@@ -176,11 +159,8 @@ int main()
     int l=sizeof(arr)/sizeof(arr[0]);
     int i=1;
     root=ins_tree(arr,0,l-1);
-    //print_tree(root,0);
-    int item=12;
-    //cin>>item;
-    cout<<check_node(root,item)<<endl;
+    cout<<check_node(root,9)<<"<=="<<endl;
+    cout<<check_node(root,10)<<"<=="<<endl;
     print_tree(root,0);
     return 0;
 }
-
