@@ -124,23 +124,93 @@ treenode *insert_avl(treenode*node, int item)
                 }
             }
         }
+        node->height=check_height(node);
         return node;
         
     }
 }
 
+int del_successor(treenode *node)//deletes the successor node and returns val of the successor node to the original function
+{
+    if (node->left->left!=NULL) return del_successor(node->left);
+    else
+    {
+        int a=node->left->value;
+        delete(node->left);
+        node->left=NULL;
+        return a;
+    }
+}
+bool check_node(treenode *root, int item)
+{
+    if (root==NULL) return false;
+    if (root->left==NULL && root->right==NULL)return false;
+    if (item<(root->value))
+    {
+        if(root->left->value==item)
+        {
+            if (root->left->right!=NULL && root->left->left!=NULL) 
+            {
+                root->left->value=del_successor(root->left);
+                return true;
+            }
+            else if (root->left->right==NULL)
+            {
+                treenode *tmp=root->left->left;
+                delete(root->left);
+                root->left=tmp;
+                return true;
+            }
+            else 
+            {
+                treenode *tmp=root->left->right;
+                delete(root->left);
+                root->left=tmp;
+                return true;
+            }
+        }
+        else return check_node(root->left,item);
+    }
+    else
+    {
+        if (root->right->value==item) 
+        {
+            if (root->right->right!=NULL || root->right->left!=NULL) 
+            {
+                root->right->value=del_successor(root->right);
+                return true;
+            }
+            else if (root->right->left==NULL)
+            {
+                treenode *tmp=root->right->right;
+                delete(root->right);
+                root->right=tmp;
+                return true;
+            }
+            else 
+            {
+                treenode *tmp=root->right->left;
+                delete(root->right);
+                root->right=tmp;
+                return true;
+            }
+        }
+        else return check_node(root->right,item);
+    }
+}
+
+
 int main()
 {
-    treenode *root = create_node(3);
+    treenode *root = create_node(1);
     int i=1;
     print_tree(root,0);
     root=insert_avl(root,2);
-    root=insert_avl(root,1);
+    root=insert_avl(root,3);
     root=insert_avl(root,5);
     root=insert_avl(root,4);
     root=insert_avl(root,7);
     root=insert_avl(root,6);
-    root=insert_avl(root,8);
     cout<<"-----------------------"<<endl;
     print_tree(root,0);
     return 0;
