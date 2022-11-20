@@ -85,6 +85,26 @@ treenode * l_rt_rot(treenode *root)
     return root;
 }
 
+treenode* tree2AVl(treenode *node)
+{
+    if (node==NULL) return node;
+    int a=check_height(node->left);
+    int b=check_height(node->right);
+    if ((a-b)==2)
+    {
+        node=rt_l_rot(node);
+    }
+    else if ((b-a)==2)
+    {
+        node=l_rt_rot(node);
+    }
+    else 
+    {
+        if (a>1) return node->left=tree2AVl(node->left);
+        if (b>1) return node->right=tree2AVl(node->right);
+    }
+}
+
 treenode *insert_avl(treenode*node, int item)
 {
     if (node==NULL)return create_node(item);
