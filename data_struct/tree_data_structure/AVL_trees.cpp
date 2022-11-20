@@ -85,16 +85,62 @@ treenode * l_rt_rot(treenode *root)
     return root;
 }
 
+treenode *insert_avl(treenode*node, int item)
+{
+    if (node==NULL)return create_node(item);
+    else
+    {
+        if (item<node->value)
+        {
+            node->left=insert_avl(node->left,item);
+            if ((check_height(node->left)-check_height(node->right))==2)
+            {
+                if (item<(node->left->value)) 
+                {
+                    cout<<"l_rot"<<endl;
+                    node=l_rot(node);
+                }
+                else 
+                {
+                    cout<<"rt_l_rot"<<endl;
+                    node=rt_l_rot(node);
+                }
+            }
+        }
+        if (item>node->value)
+        {
+            node->right=insert_avl(node->right,item);
+            if ((check_height(node->right)-check_height(node->left))==2)
+            {
+                if (item>(node->right->value)) 
+                {
+                    cout<<"rt_rot"<<endl;
+                    node=rt_rot(node);
+                }
+                else 
+                {
+                    cout<<"l_rt_rot"<<endl;
+                    node=l_rt_rot(node);
+                }
+            }
+        }
+        return node;
+        
+    }
+}
 
 int main()
 {
-    treenode *root = create_node(2);
+    treenode *root = create_node(3);
     int i=1;
     print_tree(root,0);
-    insertion(root,1);
-    insertion(root,3);
-    cout<<"-----------------------"<<endl;
-    print_tree(root,0);
+    root=insert_avl(root,2);
+    root=insert_avl(root,1);
+    root=insert_avl(root,5);
+    root=insert_avl(root,4);
+    root=insert_avl(root,7);
+    root=insert_avl(root,6);
+    root=insert_avl(root,8);
     cout<<"-----------------------"<<endl;
     print_tree(root,0);
     return 0;
