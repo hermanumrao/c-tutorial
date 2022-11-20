@@ -1,5 +1,4 @@
-AVL tree
+AVL tree->delete Fn
 red black tree
-heap sort
 A ternary search tree
 skip lists
