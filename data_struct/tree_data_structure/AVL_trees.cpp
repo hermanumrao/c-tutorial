@@ -90,13 +90,16 @@ treenode* tree2AVl(treenode *node)
     if (node==NULL) return node;
     int a=check_height(node->left);
     int b=check_height(node->right);
+    cout<<"ht="<<a<<b<<endl;
     if ((a-b)==2)
     {
-        node=rt_l_rot(node);
+        if (node->left->right==NULL) node=l_rot(node);
+        else node=rt_l_rot(node);
     }
     else if ((b-a)==2)
     {
-        node=l_rt_rot(node);
+        if (node->right->left==NULL) node=rt_rot(node);
+        else node=l_rt_rot(node);
     }
     else 
     {
@@ -104,6 +107,7 @@ treenode* tree2AVl(treenode *node)
         if (b>1) return node->right=tree2AVl(node->right);
     }
 }
+
 
 treenode *insert_avl(treenode*node, int item)
 {
