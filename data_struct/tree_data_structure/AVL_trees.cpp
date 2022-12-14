@@ -226,16 +226,17 @@ bool check_node(treenode *root, int item)
 
 int main()
 {
-    treenode *root = create_node(1);
+    treenode *root = create_node(2);
     int i=1;
     print_tree(root,0);
-    root=insert_avl(root,2);
-    root=insert_avl(root,3);
-    root=insert_avl(root,5);
-    root=insert_avl(root,4);
+    root=insert_avl(root,11);
+    root=insert_avl(root,15);
+    root=insert_avl(root,14);
     root=insert_avl(root,7);
-    root=insert_avl(root,6);
+    root=insert_avl(root,8);
+    print_tree(root,0);
     cout<<"-----------------------"<<endl;
+    root=insert_avl(root,3);
     print_tree(root,0);
     return 0;
 }
