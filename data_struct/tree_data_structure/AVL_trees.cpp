@@ -5,21 +5,20 @@
 using namespace std ;
 struct treenode
 {
-	int value;
-	/* use struct only when you want to insert another tree at that node*/
-	struct treenode *left;
-	struct treenode *right;
-    int height;
-
+    int value;
+        /* use struct only when you want to insert another tree at that node*/
+    struct treenode *left;
+    struct treenode *right;
+    int height=0;
 };
-treenode *create_node(int value)
+treenode *create_node(int value,treenode * lt=NULL,treenode * rt=NULL)
 {
-	treenode *node =new treenode();
-	node->value=value;
-	node->left=NULL;
-	node->right=NULL;
+    treenode *node =new treenode();
+    node->value=value;
+    node->left=lt;
+    node->right=rt;
     node->height=1;
-	return node;
+    return node;
 }
 
 void print_tabs(int i)
@@ -53,8 +52,14 @@ int check_height(treenode *node)//returns the height of the tree
     if (node == NULL) return 0;
     else return (1+max(check_height(node->left),check_height(node->right)));
 }
+void fix_ht(treenode *node)
+{
+    node->height=check_height(node);
+    if (node->left !=NULL) fix_ht(node->left);
+    if (node->right !=NULL) fix_ht(node->right);
+}
 
-treenode * rt_rot( treenode *root)
+treenode * l_rot( treenode *root)
 {
     treenode * temp=root->right;
     root->right=root->right->left;
@@ -63,7 +68,7 @@ treenode * rt_rot( treenode *root)
     temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
     return temp;
 }
-treenode * l_rot( treenode *root)
+treenode * rt_rot( treenode *root)
 {
     treenode * temp=root->left;
     root->left=root->left->right;
@@ -72,40 +77,27 @@ treenode * l_rot( treenode *root)
     temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
     return temp;
 }
-treenode * rt_l_rot(treenode *root)
-{
-    root->left=rt_rot(root->left);
-    root=l_rot(root);
-    return root;
-}
 treenode * l_rt_rot(treenode *root)
 {
-    root->right=l_rot(root->right);
+    root->left=l_rot(root->left);
     root=rt_rot(root);
     return root;
 }
+treenode * rt_l_rot(treenode *root)
+{
+    root->right=rt_rot(root->right);
+    root=l_rot(root);
+    return root;
+}
 
-treenode* tree2AVl(treenode *node)
+treenode* BST2AVL(treenode *node)
 {
     if (node==NULL) return node;
-    int a=check_height(node->left);
-    int b=check_height(node->right);
-    cout<<"ht="<<a<<b<<endl;
-    if ((a-b)==2)
-    {
-        if (node->left->right==NULL) node=l_rot(node);
-        else node=rt_l_rot(node);
-    }
-    else if ((b-a)==2)
-    {
-        if (node->right->left==NULL) node=rt_rot(node);
-        else node=l_rt_rot(node);
-    }
-    else 
-    {
-        if (a>1) return node->left=tree2AVl(node->left);
-        if (b>1) return node->right=tree2AVl(node->right);
-    }
+    fix_ht(node);
+    if (node->height>2 && node->left!=NULL) BST2AVL(node->left);
+    if (node->height>2 && node->right!=NULL) BST2AVL(node->right);
+    int lh,rh;
+   
 }
 
 
@@ -121,23 +113,6 @@ treenode *insert_avl(treenode*node, int item)
             {
                 if (item<(node->left->value)) 
                 {
-                    cout<<"l_rot"<<endl;
-                    node=l_rot(node);
-                }
-                else 
-                {
-                    cout<<"rt_l_rot"<<endl;
-                    node=rt_l_rot(node);
-                }
-            }
-        }
-        if (item>node->value)
-        {
-            node->right=insert_avl(node->right,item);
-            if ((check_height(node->right)-check_height(node->left))==2)
-            {
-                if (item>(node->right->value)) 
-                {
                     cout<<"rt_rot"<<endl;
                     node=rt_rot(node);
                 }
@@ -148,9 +123,25 @@ treenode *insert_avl(treenode*node, int item)
                 }
             }
         }
+        if (item>node->value)
+        {
+            node->right=insert_avl(node->right,item);
+            if ((check_height(node->right)-check_height(node->left))==2)
+            {
+                if (item>(node->right->value)) 
+                {
+                    cout<<"l_rot"<<endl;
+                    node=l_rot(node);
+                }
+                else 
+                {
+                    cout<<"rt_l_rot"<<endl;
+                    node=rt_l_rot(node);
+                }
+            }
+        }
         node->height=check_height(node);
-        return node;
-        
+        return node;  
     }
 }
 
@@ -226,28 +217,30 @@ bool check_node(treenode *root, int item)
 
 int main()
 {
-    treenode *root = create_node(2);
-    int i=1;
+    // treenode *root = create_node(0);
+    // print_tree(root,0);
+    // for ( int i=100;i>0;i--)
+    // {
+    //     cout<<"-----------------------"<<endl;  //this part of code is to test the insert_AVL function
+    //     root=insert_avl(root,int(i));            //insert_avl function has beeen tested ad is completely working
+    //     print_tree(root,0);
+    // } 
+    treenode *root = create_node(1,create_node(2),create_node(3));
     print_tree(root,0);
-    root=insert_avl(root,11);
-    root=insert_avl(root,15);
-    root=insert_avl(root,14);
-    root=insert_avl(root,7);
-    root=insert_avl(root,8);
-    print_tree(root,0);
-    cout<<"-----------------------"<<endl;
-    root=insert_avl(root,3);
+    fix_ht(root);
     print_tree(root,0);
     return 0;
 }
 /*
-    1
-   /
-  2
- /
-3
-  1
- / \ 
-2   3 
+     1
+    /
+   2
+  /
+ 3
 
-		*/
+
+   1
+  / \ 
+ 2   3 
+
+        */
