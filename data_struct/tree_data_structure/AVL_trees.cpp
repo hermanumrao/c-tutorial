@@ -90,14 +90,29 @@ treenode * rt_l_rot(treenode *root)
     return root;
 }
 
-treenode* BST2AVL(treenode *node)
+void BST2AVL(treenode *node)
 {
-    if (node==NULL) return node;
+    if (node==NULL) return ;
     fix_ht(node);
     if (node->height>2 && node->left!=NULL) BST2AVL(node->left);
     if (node->height>2 && node->right!=NULL) BST2AVL(node->right);
     int lh,rh;
-   
+    if (node->left==NULL) lh=0;
+    else lh=node->left->height;
+    if (node->right==NULL) rh=0;
+    else rh=node->right->height;
+    cout<<lh<<' '<<rh<<endl;
+    if ((lh-rh)>=2)
+    {
+        int llh,lrh;
+        if (node->left==NULL) llh=0;
+        else llh=node->left->left->height;
+        if (node->right==NULL) lrh=0;
+        else llh=node->left->right->height;
+        cout<<llh<<' '<<lrh;
+        lrh;
+    }
+
 }
 
 
@@ -156,10 +171,18 @@ int del_successor(treenode *node)//deletes the successor node and returns val of
         return a;
     }
 }
-bool check_node(treenode *root, int item)
+
+bool check_node(treenode *root, int item)//search for a specific value within the tree
 {
     if (root==NULL) return false;
     if (root->left==NULL && root->right==NULL)return false;
+    if (root->value==item)
+    {
+        if (root->left->height>root->right->height) root=rt_rot(root);
+        else root=l_rot(root);
+        check_node(root,item);
+        return true;
+    }
     if (item<(root->value))
     {
         if(root->left->value==item)
@@ -219,16 +242,24 @@ int main()
 {
     // treenode *root = create_node(0);
     // print_tree(root,0);
-    // for ( int i=100;i>0;i--)
+    // for ( int i=14;i>0;i--)
     // {
     //     cout<<"-----------------------"<<endl;  //this part of code is to test the insert_AVL function
     //     root=insert_avl(root,int(i));            //insert_avl function has beeen tested ad is completely working
     //     print_tree(root,0);
     // } 
-    treenode *root = create_node(1,create_node(2),create_node(3));
+
+    // int a_find=7;
+    // //cin>> a_find;            ///this part of the code is to check if a number is present in the part of code
+    // if (check_node(root,a_find)==true) cout<<"found value"<<endl;
+    // else cout<<"not found value"<<endl;
+    // print_tree(root,0);
+
+    treenode *root = create_node(1,NULL,create_node(3,create_node(6),create_node(7)));
     print_tree(root,0);
     fix_ht(root);
     print_tree(root,0);
+    BST2AVL(root);
     return 0;
 }
 /*
