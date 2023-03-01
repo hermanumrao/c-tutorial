@@ -61,6 +61,7 @@ void fix_ht(treenode *node)
 
 treenode * l_rot( treenode *root)
 {
+    cout<<"l_rot"<<endl;
     treenode * temp=root->right;
     root->right=root->right->left;
     root->height= max(check_height(root->left), check_height(root->right)) + 1;
@@ -70,6 +71,7 @@ treenode * l_rot( treenode *root)
 }
 treenode * rt_rot( treenode *root)
 {
+    cout<<"rt_rot"<<endl;
     treenode * temp=root->left;
     root->left=root->left->right;
     root->height= max(check_height(root->left), check_height(root->right)) + 1;
@@ -79,42 +81,18 @@ treenode * rt_rot( treenode *root)
 }
 treenode * l_rt_rot(treenode *root)
 {
+    cout<<"l_rt_rot"<<endl;
     root->left=l_rot(root->left);
     root=rt_rot(root);
     return root;
 }
 treenode * rt_l_rot(treenode *root)
 {
+    cout<<"rt_l_rot"<<endl;
     root->right=rt_rot(root->right);
     root=l_rot(root);
     return root;
 }
-
-void BST2AVL(treenode *node)
-{
-    if (node==NULL) return ;
-    fix_ht(node);
-    if (node->height>2 && node->left!=NULL) BST2AVL(node->left);
-    if (node->height>2 && node->right!=NULL) BST2AVL(node->right);
-    int lh,rh;
-    if (node->left==NULL) lh=0;
-    else lh=node->left->height;
-    if (node->right==NULL) rh=0;
-    else rh=node->right->height;
-    cout<<lh<<' '<<rh<<endl;
-    if ((lh-rh)>=2)
-    {
-        int llh,lrh;
-        if (node->left==NULL) llh=0;
-        else llh=node->left->left->height;
-        if (node->right==NULL) lrh=0;
-        else llh=node->left->right->height;
-        cout<<llh<<' '<<lrh;
-        lrh;
-    }
-
-}
-
 
 treenode *insert_avl(treenode*node, int item)
 {
@@ -255,12 +233,7 @@ int main()
     // else cout<<"not found value"<<endl;
     // print_tree(root,0);
 
-    treenode *root = create_node(1,NULL,create_node(3,create_node(6),create_node(7)));
-    print_tree(root,0);
-    fix_ht(root);
-    print_tree(root,0);
-    BST2AVL(root);
-    return 0;
+
 }
 /*
      1
