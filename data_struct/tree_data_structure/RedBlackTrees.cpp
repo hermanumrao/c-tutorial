@@ -40,7 +40,9 @@ void print_tree(treenode *root, int level)
         cout<<"-- ";
         return;
     }
-    cout<<"value="<<root->value<<endl;
+    cout<<"value="<<root->value;
+    if (level==0) cout<<"|"<<root->height<<endl;
+    else cout<<"<-"<<root->parent->value<<"|"<<root->height<<endl;
     print_tabs(level);
     cout<<"left=";
     print_tree(root->left,level+1);
@@ -66,11 +68,12 @@ void fix_parent(treenode * root)
     fix_ht(root);
     root->left->parent=root;
     root->right->parent=root;
-    if (root->height>1)
+    if (root->height>2)
     {
         fix_parent(root->left);
         fix_parent(root->right);
     }
+    else return;
 }
 
 treenode * l_rot( treenode *root)
@@ -116,7 +119,9 @@ treenode * rt_l_rot(treenode *root)
 
 int main()
 {
-    treenode *root = create_node(0,create_node(1));
+    treenode *root = create_node(0,create_node(1,create_node(3),create_node(4)),create_node(2,create_node(5),create_node(6)));
+    fix_ht(root);
+    fix_parent(root);
     print_tree(root,0);
     
 
