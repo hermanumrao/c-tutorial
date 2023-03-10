@@ -60,7 +60,7 @@ void print_tree(treenode *root, int level)
         return;
     }
     cout<<"value="<<root->value;
-    if (level==0) cout<<"|"<<root->height;
+    if (root->parent==NULL) cout<<"|"<<root->height;
     else cout<<"<-"<<root->parent->value<<"|"<<root->height;
     if (root->color==true) cout<<"(red)"<<endl;
     else cout<<"(black)"<<endl;
@@ -87,8 +87,9 @@ void fix_ht(treenode *node)
 void fix_parent(treenode * root)
 {
     fix_ht(root);
-    root->left->parent=root;
-    root->right->parent=root;
+    if (root->height==1) return;
+    if (root->left!=NULL)root->left->parent=root;
+    if (root->right!=NULL)root->right->parent=root;
     if (root->height>2)
     {
         fix_parent(root->left);
@@ -102,9 +103,8 @@ treenode * l_rot( treenode *root)
     cout<<"l_rot"<<endl;
     treenode * temp=root->right;
     root->right=root->right->left;
-    root->height= max(check_height(root->left), check_height(root->right)) + 1;
     temp->left=root;
-    temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
+    fix_parent(temp);
     return temp;
 }
 treenode * rt_rot( treenode *root)
@@ -112,9 +112,8 @@ treenode * rt_rot( treenode *root)
     cout<<"rt_rot"<<endl;
     treenode * temp=root->left;
     root->left=root->left->right;
-    root->height= max(check_height(root->left), check_height(root->right)) + 1;
     temp->right=root;
-    temp->height= max(check_height(temp->left), check_height(temp->right)) + 1;
+    fix_parent(temp);
     return temp;
 }
 treenode * l_rt_rot(treenode *root)
@@ -122,6 +121,7 @@ treenode * l_rt_rot(treenode *root)
     cout<<"l_rt_rot"<<endl;
     root->left=l_rot(root->left);
     root=rt_rot(root);
+    fix_parent(root);
     return root;
 }
 treenode * rt_l_rot(treenode *root)
@@ -129,6 +129,7 @@ treenode * rt_l_rot(treenode *root)
     cout<<"rt_l_rot"<<endl;
     root->right=rt_rot(root->right);
     root=l_rot(root);
+    fix_parent(root);
     return root;
 }
 
@@ -173,7 +174,17 @@ treenode *add_node(treenode *root,int item)
 
 void RedBlack_fix(treenode *root,int tree_height)
 {
-    while (root->parent->color==true)
+    cout<<"entry here1"<<root->height<<tree_height<<endl;
+
+    //print_tree(root,0);
+
+    if (root->height==tree_height) 
+    {
+        cout<<"root";
+        root->color=false  ;                            //case 0
+        return;
+    }
+    if (root->parent->color==true)
     {
         if (root->parent==root->parent->parent->left)
         {
@@ -183,41 +194,93 @@ void RedBlack_fix(treenode *root,int tree_height)
                 root->parent->color=false;              //case 1
                 y->color=false;                         //case 1
                 root->parent->parent->color=true;       //case 1
+                print_tree(root->parent->parent,0);
+                return(RedBlack_fix(root->parent->parent,root->parent->parent->height));
             }
             else if (root==root->parent->right)
             {
                 root=root->parent;                      //case 2
-                l_rot(root);                            //case 2
+                root=l_rot(root);                       //case 2
             }
             root->parent->color=false;                  //case 3
-            root->parent->parent->color=true;           //case 3
-            rt_rot(root->parent->parent);                //case 3
+            root->parent->parent->color=true; 
+            cout<<"came here3";          //case 3
+            root=rt_rot(root->parent->parent);
+            cout<<"came here3";
+            fix_parent(root);                           //case 3
+            root=root->parent;
         }
-        //else //write
+        else if (root->parent==root->parent->parent->right)
+        {
+            treenode * y =root->parent->parent->left; 
+            if (y->color==true)
+            {
+                root->parent->color=false;              //case 1
+                y->color=false;                         //case 1
+                root->parent->parent->color=true;       //case 1
+            }
+            else if (root==root->parent->left)
+            {
+                root=root->parent;                      //case 2
+                rt_rot(root);
+                cout<<"came here2";                           //case 2
+            }
+            cout<<"came here1";
+            root->parent->color=false;                  //case 3
+            root->parent->parent->color=true;           //case 3
+            l_rot(root->parent->parent);                //case 3
+        }
     }
-    if (root->height==tree_height) root->color=false  ; //case 0
+
+
 }
  
-treenode * ins_RedBlack(treenode * root,int item,int tree_height)
+treenode * ins_RedBlack(treenode * root,int item)
 {
+    //
     if (root==NULL) 
     {
-        return  create_node(item,NULL,NULL,NULL,false);
         cout<<"null";
+        return  create_node(item,NULL,NULL,NULL,false);
     }
-    RedBlack_fix(add_node(root,item),tree_height);
+    treenode *root1=add_node(root,item);
+    cout<<"after BST insertion"<<endl;
+    fix_parent(root);
+    print_tree(root,0);
+    RedBlack_fix(root1,root->height);
+    return root;
 
 }
 
 int main()
 {
-    treenode *root ;
-    print_tree(ins_RedBlack(root,5,0),0);
-    print_tree(ins_RedBlack(root,6,1),0);
-    print_tree(ins_RedBlack(root,3,2),0);
-    // fix_parent(root);
-    // print_tree(root,0);
-    // int tree_height=root->height;
+    treenode * root= NULL;
+    root=ins_RedBlack(root,5);
+    print_tree(root,0);
+    root= ins_RedBlack(root,7);
+    print_tree(root,0);
+    root=ins_RedBlack(root,4);
+    cout<<"second"<<endl;
+    print_tree(root,0);
+    root=ins_RedBlack(root,3);
+    cout<<"third"<<endl;
+    print_tree(root,0);
+    root=ins_RedBlack(root,6);
+    cout<<"4th"<<endl;
+    print_tree(root,0);
+
+    root=ins_RedBlack(root,8);
+    cout<<"5th"<<endl;
+    print_tree(root,0);
+    root=ins_RedBlack(root,2);
+    cout<<"third"<<endl;
+    print_tree(root,0);
+    root=ins_RedBlack(root,1);
+    cout<<"third"<<endl;
+    print_tree(root,0);
+    root=ins_RedBlack(root,9);
+    cout<<"third"<<endl;
+    print_tree(root,0);
     
 
 }
