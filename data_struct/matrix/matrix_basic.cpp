@@ -4,6 +4,7 @@ using namespace std;
 const int xrow=4;
 const int xcol=5;
 
+
 int main()
 {
 	int it=1;
@@ -22,7 +23,7 @@ int main()
                 {       
                         cout<<matrix1[i][j]<<"\t";
                 }       
-		cout<<endl;
-        }		
+                cout<<endl;
+        }
 }
 
