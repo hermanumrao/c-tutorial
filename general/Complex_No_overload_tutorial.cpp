@@ -6,9 +6,9 @@ using namespace std;
 class Complex
 {
 	public:
-		int real;
-		int imag;
-		Complex(int r=0, int i=0) : real(r),imag(i) {}
+		float real;
+		float imag;
+		Complex(float r=0, float i=0) : real(r),imag(i) {}
 
 		//operator overloading + - *
 		Complex operator + (Complex cmp)
@@ -29,35 +29,38 @@ class Complex
 			temp.imag =real*cmp.imag+imag*cmp.real;
 			return temp;
 		}
-		Complex operator ++()//overloading the preincrement operator
+		Complex operator ++()		//overloading the  pre-increment operator
 		{
 			real=real+1;
 			return *this;
 		}
-		Complex operator ++( int )
+		Complex operator ++( int )	//overloading the post-increment operator
 		{
 			Complex temp =*this;
 			real+=1;
 			return temp;
 		}
-		operator float()
+		operator float()			//overloading conversion type operators
 		{
 			return sqrt(real*real+imag*imag);
 		}
 
 	private:
 			//overloading output operator <<
-		friend ostream & operator << (ostream &, const Complex &);
-		friend istream & operator >> (istream & , const Complex &);
+		friend ostream & operator << (ostream &, const Complex &);		
+		//friend functions have to be written outside the code block of class
+			//overloading  input operator >>
+		friend istream & operator >> (istream & , Complex &);
 		friend bool operator == (const Complex & , const Complex &);		// for all relational operators use this syntax
 };
 
-istream & operator >> (istream & istr, const Complex &c1)
+istream & operator >> (istream & istr, Complex &c1)
 		//overloading istream operator to take input in in a better way 
 {	cout << "real part:";
 	istr >> c1.real;
 	cout << "\nimaginary part:";
 	istr >> c1.imag;
+	cout << "\n";
 	return istr;
 } 
 
@@ -73,21 +76,18 @@ ostream & operator << (ostream & ostr, const Complex &c1)
 
 int main()
 {
-	int real,imag;
+	float real,imag;
+	Complex c1,c2,res;
 	cout << "enter value for real and imaginary parts for c1"<<endl;
-	cin >> real;
-	cin >> imag;
-	Complex c1(real,imag);
+	cin >> c1;
 	cout << "enter value for real and imaginary parts for c2"<<endl;
-	cin >> real;
-	cin >> imag;
-	Complex c2(real,imag),res;
+	cin >> c2;
 	res = c1+c2;
 	cout<<res<<endl;
 	cout<<++res<<endl;
 	cout<<res<<endl;
 	cout<<res++<<endl;
 	cout<<res<<endl;
-	cout<<(c1==c2);
+	cout<<((c1==c2)? "equal":"unequal")<<endl;
 	cout<<float(res);
 }
