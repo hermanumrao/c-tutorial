@@ -5,6 +5,11 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+// the root of a binary search tree is the Median of sorted array
+// left node < root < right node
+// left hand side is always smaller than right hand side 
+// this is basically inoerder traversal
+// to any travrsal method we can pass aany binary tree
 
 /*
        5
@@ -16,7 +21,8 @@ using namespace std ;
        4    9
 
 
-[1,2,3,4,5,6,7,8,9]
+[1,2,3,4,5,6,7,8,9] // inorder traversal
+ [5,2,7,1,3,6,8,4,9]
         
 */
 
