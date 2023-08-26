@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 // i am trying to create a linked list which can store heterogenous datatypes using:
-// union in combination with
+// conversion is easy like int to float
+// used to make DB with multiple datatype
+// union in combination with struct
 
 typedef struct l
 {	union  
