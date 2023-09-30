@@ -68,7 +68,7 @@ void qsort(int *arr,int st, int end)
  
 int main()
 {
-	int arr[]={4,9,8,6,53,1,2};
+	int arr[]={6,5,8,9,7};
 	int l=sizeof(arr)/sizeof(arr[0]);
 	disp_arr(arr,l);
 	qsort(arr,0,l-1);
