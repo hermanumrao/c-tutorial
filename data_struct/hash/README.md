@@ -1,6 +1,7 @@
-# Tutorial to hashing function
+# Tutorial to hashing function#
 
-hthere are 2 types of hashing function
+
+there are 2 types of hashing function
     -> dependant hashing
     -> independant hashing
 
