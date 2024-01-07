@@ -112,7 +112,11 @@ int main()
     for (int it=0;it<len;it++) cout<<arr[it]<<" ";
     return 0;
 }
+/*The root is the top node, internal nodes are in the middle, and leaf nodes are on the bottom. Using this terminology, a valid B-tree of order m obeys the following rules:
 
-
-
+Every node has at most m children.
+Every internal node has at least ciel( m / 2 ) children.
+The root node has at least 2 children if it's not a leaf.
+A non-leaf node with k children contains k-1 keys.
+All leaves are on the same level*/
 
