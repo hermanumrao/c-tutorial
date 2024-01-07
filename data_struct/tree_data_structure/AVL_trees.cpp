@@ -218,20 +218,20 @@ bool check_node(treenode *root, int item)//search for a specific value within th
 
 int main()
 {
-    // treenode *root = create_node(0);
-    // print_tree(root,0);
-    // for ( int i=14;i>0;i--)
-    // {
-    //     cout<<"-----------------------"<<endl;  //this part of code is to test the insert_AVL function
-    //     root=insert_avl(root,int(i));            //insert_avl function has beeen tested ad is completely working
-    //     print_tree(root,0);
-    // } 
+    treenode *root = create_node(0);
+    print_tree(root,0);
+    for ( int i=14;i>0;i--)
+    {
+        cout<<"-----------------------"<<endl;  //this part of code is to test the insert_AVL function
+        root=insert_avl(root,int(i));            //insert_avl function has beeen tested ad is completely working
+        print_tree(root,0);
+    } 
 
-    // int a_find=7;
-    // //cin>> a_find;            ///this part of the code is to check if a number is present in the part of code
-    // if (check_node(root,a_find)==true) cout<<"found value"<<endl;
-    // else cout<<"not found value"<<endl;
-    // print_tree(root,0);
+    int a_find=7;
+    //cin>> a_find;            ///this part of the code is to check if a number is present in the part of code
+    if (check_node(root,a_find)==true) cout<<"found value"<<endl;
+    else cout<<"not found value"<<endl;
+    print_tree(root,0);
 
 
 }
