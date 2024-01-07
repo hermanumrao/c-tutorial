@@ -5,7 +5,7 @@ there are 2 types of hashing function
     -> dependant hashing
     -> independant hashing
 
-## the most popular distribution independant function are:
+## the most popular distribution independant function are:##
     -> Division method
         (Basically modudo function)
     -> Mid Square method
@@ -18,8 +18,8 @@ there are 2 types of hashing function
         )
 
 
-## methods for handling hash collision:
-    -> Open addrssing:
+## methods for handling hash collision:##
+    -> Open addressing
         most popular functions used are:
         **Linear Probing**
             *(put the value in the nearest free space present after the original key)
@@ -28,3 +28,10 @@ there are 2 types of hashing function
             *H(k)=(h+i^2)*
         **Double hashing**
             *H(k)=h+i(H')   ; where H' is a new function*
+
+    ->chaining 
+        *in simple terms using a linked list instead of array*
+
+    ->bucket addressing
+        *in the table if collision occrs we make store the collided item in a bucket (i.e. a block of memmory spacce)
+        the memmory address is stored in the table*
