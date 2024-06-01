@@ -66,13 +66,15 @@ int main(int argc, char *argv[]) {
   employee employee1("herman", "github", 20);
   employee1.intro();
   employee1.AskForPromotion();
-  employee1.setage(51);
-  employee1.intro();
-  employee1.AskForPromotion();
 
   developer d("herman", "github", "c++", 31);
   d.show_lang();
   d.intro();
+  cout << "------------------------------" << endl;
+  employee *e1 = &d; // polymorphism, derived class is appointed to a
+                     // declaration of base class
+  d.intro();
+  d.AskForPromotion();
 
   return 0;
 }
