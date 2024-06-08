@@ -3,11 +3,11 @@
 
 using namespace std;
 
-class Abstract_employee { // abstract function
+class Abstract_employee { // this is the bse class
   virtual void AskForPromotion() = 0;
 };
 
-class employee : Abstract_employee {
+class employee : Abstract_employee {  // this one is the derived one
 
 private:
   string Name;
