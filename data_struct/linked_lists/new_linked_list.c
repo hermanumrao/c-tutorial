@@ -40,22 +40,50 @@ int insertBegining(int val, struct List **head) {
   return EXIT_SUCCESS;
 }
 
-int insert(int val, int pose, struct List **head) {
-  if (pose < 0 || *head == NULL) {
-    insertBegining(val, head);
+int insertEnd(int val, struct List **head) {
+  struct List *node = createNode(val, *head);
+  if (*head == NULL) {
+    *head = node;
     return EXIT_SUCCESS;
   }
   struct List *tmp = *head;
-  for (int i = 0; i < pose - 1; i++) {
-    if (tmp->next == NULL) {
-      fprintf(stderr, "insert to list at wrong location.\n");
-      return EXIT_FAILURE;
-    }
+  while (tmp->next != NULL) {
     tmp = tmp->next;
   }
   tmp->next = createNode(val, tmp->next);
   return EXIT_SUCCESS;
 }
+
+struct List *reverseList(struct List *head) {
+  struct List *prev = NULL;
+  struct List *tmp = head;
+  struct List *next = NULL;
+
+  while (tmp != NULL) {
+    next = tmp->next;
+    tmp->next = prev;
+    prev = tmp;
+    tmp = next;
+  }
+  return prev;
+}
+
+/* int insert(int val, int pose, struct List **head) { */
+/*   if (pose < 0 || *head == NULL) { */
+/*     insertBegining(val, head); */
+/*     return EXIT_SUCCESS; */
+/*   } */
+/*   struct List *tmp = *head; */
+/*   for (int i = 0; i < pose - 1; i++) { */
+/*     if (tmp->next == NULL) { */
+/*       fprintf(stderr, "insert to list at wrong location.\n"); */
+/*       return EXIT_FAILURE; */
+/*     } */
+/*     tmp = tmp->next; */
+/*   } */
+/*   tmp->next = createNode(val, tmp->next); */
+/*   return EXIT_SUCCESS; */
+/* } */
 
 int main(int argc, char *argv[]) {
   int a[] = {1, 2, 3};
@@ -65,13 +93,14 @@ int main(int argc, char *argv[]) {
     /* head = createNode(a[i], head); */
     insertBegining(a[i], &head);
   }
-  insert(0, 4, &head);
+  insertEnd(0, &head);
   /* insert(0, 2, &head); */
   /* insert(0, 4, &head); */
   /* insert(0, 3, &head); */
 
   displayList(head);
-
+  head = reverseList(head);
+  displayList(head);
   freeList(head);
 
   return EXIT_SUCCESS;
