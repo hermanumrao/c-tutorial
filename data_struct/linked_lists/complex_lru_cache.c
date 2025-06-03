@@ -12,14 +12,14 @@ struct List {
 
 struct Cache {
   struct List *head;
-  int hash[CACHE_LENGTH][CACHE_LENGTH];
+  struct List *hash[CACHE_LENGTH][CACHE_LENGTH];
 };
 
 void init_cache(struct Cache *cache) {
   cache->head = NULL;
   for (int i = 0; i < CACHE_LENGTH; i++) {
     for (int j = 0; j < CACHE_LENGTH; j++) {
-      cache->hash[i][j] = -1;
+      cache->hash[i][j] = NULL;
     }
   }
 }
@@ -43,7 +43,7 @@ void displayList(struct List *strt) {
 bool is_in_hash(struct Cache *cache, int data) {
   int row = data % CACHE_LENGTH;
   for (int i = 0; i < CACHE_LENGTH; i++) {
-    if (cache->hash[row][i] == data)
+    if (cache->hash[row][i]->data == data)
       return true;
   }
   return false;
@@ -52,8 +52,8 @@ bool is_in_hash(struct Cache *cache, int data) {
 void insert_in_hash(struct Cache *cache, int data) {
   int row = data % CACHE_LENGTH;
   for (int i = 0; i < CACHE_LENGTH; i++) {
-    if (cache->hash[row][i] == -1 || cache->hash[row][i] == data) {
-      cache->hash[row][i] = data;
+    if (cache->hash[row][i]->data == -1 || cache->hash[row][i]->data == data) {
+      cache->hash[row][i]->data = data;
       return;
     }
   }
@@ -62,8 +62,8 @@ void insert_in_hash(struct Cache *cache, int data) {
 void remove_from_hash(struct Cache *cache, int data) {
   int row = data % CACHE_LENGTH;
   for (int i = 0; i < CACHE_LENGTH; i++) {
-    if (cache->hash[row][i] == data)
-      cache->hash[row][i] = -1;
+    if (cache->hash[row][i]->data == data)
+      cache->hash[row][i]->data = -1;
     return;
   }
 }
