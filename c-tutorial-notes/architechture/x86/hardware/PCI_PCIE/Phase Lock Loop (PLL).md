@@ -11,7 +11,7 @@ Something like a cruise control system in your car
 - ### VCO
 	- Voltage controlled Oscillator
 
-![[Pasted image 20250605230115.png]]
+![[attachments/Pasted image 20250605230115.png]]
 ## An analogy
 it has an incoming signal and an output signal.
 
