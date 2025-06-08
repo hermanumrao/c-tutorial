@@ -8,5 +8,5 @@ struct List {
 };
 ```
 
-![[attachments/Pasted image 20250605230214.png]]
+![[Pasted image 20250605230214.png]]
 
