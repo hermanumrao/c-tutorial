@@ -10,8 +10,7 @@ Something like a cruise control system in your car
 	- Loop Filter
 - ### VCO
 	- Voltage controlled Oscillator
-
-![[attachments/Pasted image 20250605230115.png]]
+![flow-diagram for PLL](attachments/Pasted%20image%2020250605230115.png)
 ## An analogy
 it has an incoming signal and an output signal.
 
