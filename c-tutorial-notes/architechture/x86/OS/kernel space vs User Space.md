@@ -5,4 +5,9 @@
 
 
 
-## wf
+## How is data transferred between user and kernel space
+well this is an important considering the fact that when an OS boots up, the kernel malloc's space for itself, while the space for user programs is malloc' ed separately.
+Thus we can say each has a ==separate address spaces. The address spaces are virtualized, meaning that the addresses are abstracted from physical memory (through a process detailed shortly). Because the address spaces are virtualized, many can exist.== In fact, the kernel itself resides in one address space, and each process resides in its own address space. These address spaces consist of virtual memory addresses, permitting many processes with independent address spaces to refer to a considerably smaller physical address space (the physical memory in the machine). Not only is this convenient, but it's also secure, because each address space is independent and isolated and therefore secure.
+
+##### For Kernel API's to read user data refer:
+[https://developer.ibm.com/articles/l-kernel-memory-access/](https://developer.ibm.com/articles/l-kernel-memory-access/)

@@ -1,0 +1,6 @@
+The Laplace transform is a mathematical tool which is used to convert the differential equation in time domain into the algebraic equations in the frequency domain or _s_-domain.
+
+Mathematically, if x(t) is a time domain function, then its Laplace transform is defined as,
+![eqn for laplace](attachments/Pasted%20image%2020250713205449.png)
+
+ The transform is useful for converting differentiation and integration in the time domain into much easier multiplication and division in the _Laplace domain_ (analogous to how logarithms are useful for simplifying multiplication and division into addition and subtraction). This gives the transform many applications in science and engineering, mostly as a tool for solving linear differential equations and dynamical systems by simplifying ordinary differential equations and integral equations into algebraic polynomial equations, and by simplifying convolution into multiplication. For example, through the Laplace transform, the equation of the simple harmonic oscillator (Hooke's law)
